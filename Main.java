@@ -1,4 +1,3 @@
-package TetrisPractice;
 
 import java.awt.event.*;
 
