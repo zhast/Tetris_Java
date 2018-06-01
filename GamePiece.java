@@ -2,20 +2,24 @@
 import java.awt.*;
 
 public class GamePiece {
-    private Color[][][] pieceArray;
-    public GamePiece(int n){
+    public Color[][][] pieceArray; //[rotation][row][col]
+    private int rotation;
+    private Color background;
+    public GamePiece(int n, Color background){
+        this.background = background;
+        rotation = 0;
         if(n==0){ //line piece
             pieceArray = new Color[][][]{
                     {//first rotation
-                            {new Color(0, 255, 255), null, null, null },
-                            {new Color(0, 255, 255), null, null, null },
-                            {new Color(0, 255, 255), null, null, null },
-                            {new Color(0, 255, 255), null, null, null }
+                            {new Color(0, 255, 255), background, background, background },
+                            {new Color(0, 255, 255), background, background, background },
+                            {new Color(0, 255, 255), background, background, background },
+                            {new Color(0, 255, 255), background, background, background }
                     },
                     {//second rotation
-                            {null, null, null, null},
-                            {null, null, null, null},
-                            {null, null, null, null},
+                            {background, background, background, background},
+                            {background, background, background, background},
+                            {background, background, background, background},
                             {new Color(0, 255, 255), new Color(0, 255, 255), new Color(0, 255, 255), new Color(0, 255, 255),}
                     }
 
@@ -23,70 +27,70 @@ public class GamePiece {
         }else if(n==1){//L piece
             pieceArray = new Color[][][]{
                     {//first rotation
-                            {Color.orange, null, null},
-                            {Color.orange, null, null},
-                            {Color.orange, Color.orange, null},
+                            {Color.orange, background, background},
+                            {Color.orange, background, background},
+                            {Color.orange, Color.orange, background},
                     },
                     {//second rotation
-                            {null, null, null},
-                            {null, null, Color.orange},
+                            {background, background, background},
+                            {background, background, Color.orange},
                             {Color.orange, Color.orange, Color.orange}
                     },
                     {//third rotation
-                            {Color.orange, Color.orange, null},
-                            {null, Color.orange, null},
-                            {null, Color.orange, null}
+                            {Color.orange, Color.orange, background},
+                            {background, Color.orange, background},
+                            {background, Color.orange, background}
                     },
                     {//fourth rotation
-                            {null, null, null},
+                            {background, background, background},
                             {Color.orange, Color.orange, Color.orange},
-                            {Color.orange, null, null}
+                            {Color.orange, background, background}
                     }
             };
         }else if(n==2){//J piece
             pieceArray = new Color[][][]{
                     {//first rotation
-                            {null, null, Color.blue},
-                            {null, null, Color.blue},
-                            {null, Color.blue, Color.blue},
+                            {background, background, Color.blue},
+                            {background, background, Color.blue},
+                            {background, Color.blue, Color.blue},
                     },
                     {//second rotation
-                            {null, null, null},
+                            {background, background, background},
                             {Color.blue, Color.blue, Color.blue},
-                            {null, null, Color.blue}
+                            {background, background, Color.blue}
                     },
                     {//third rotation
-                            {null, Color.blue, Color.blue},
-                            {null, Color.blue, null},
-                            {null, Color.blue, null}
+                            {background, Color.blue, Color.blue},
+                            {background, Color.blue, background},
+                            {background, Color.blue, background}
                     },
                     {//fourth rotation
-                            {null, null, null},
+                            {background, background, background},
                             {Color.blue, Color.blue, Color.blue},
-                            {Color.blue, null, null}
+                            {Color.blue, background, background}
                     }
             };
         }else if(n==3){//T piece
             pieceArray = new Color[][][]{
                     {//first rotation
-                            {null, null, null},
-                            {null, new Color(153, 0, 255), null},
-                            {new Color(153, 0, 255), new Color(153, 0, 255), null},
+                            {background, background, background},
+                            {background, new Color(153, 0, 255), background},
+                            {new Color(153, 0, 255), new Color(153, 0, 255), background},
                     },
                     {//second rotation
-                            {null, null, new Color(153, 0, 255)},
-                            {null, new Color(153, 0, 255), new Color(153, 0, 255)},
-                            {null, null, new Color(153, 0, 255)}
+                            {background, background, new Color(153, 0, 255)},
+                            {background, new Color(153, 0, 255), new Color(153, 0, 255)},
+                            {background, background, new Color(153, 0, 255)}
                     },
                     {//third rotation
                             {new Color(153, 0, 255), new Color(153, 0, 255), new Color(153, 0, 255)},
-                            {null, new Color(153, 0, 255), null},
-                            {null, null, null}
+                            {background, new Color(153, 0, 255), background},
+                            {background, background, background}
                     },
                     {//fourth rotation
-                            {new Color(153, 0, 255), null, null},
-                            {new Color(153, 0, 255), new Color(153, 0, 255), null},
-                            {new Color(153, 0, 255), null, null}
+                            {new Color(153, 0, 255), background, background},
+                            {new Color(153, 0, 255), new Color(153, 0, 255), background},
+                            {new Color(153, 0, 255), background, background}
                     }
             };
         }else if(n==4){//O piece
@@ -99,29 +103,47 @@ public class GamePiece {
         }else if(n==5){//S piece
             pieceArray = new Color[][][]{
                     {//first rotation
-                            {null, null, null},
-                            {null, Color.green, Color.green},
-                            {Color.green, Color.green, null},
+                            {background, background, background},
+                            {background, Color.green, Color.green},
+                            {Color.green, Color.green, background},
                     },
                     {//second rotation
-                            {Color.green, null, null},
-                            {Color.green, Color.green, null},
-                            {null, Color.green, null}
+                            {Color.green, background, background},
+                            {Color.green, Color.green, background},
+                            {background, Color.green, background}
                     }
             };
         }else if(n==6){//Z piece
             pieceArray = new Color[][][]{
                     {//first rotation
-                            {null, null, null},
-                            {Color.red, Color.red, null},
-                            {null, Color.red, Color.red},
+                            {background, background, background},
+                            {Color.red, Color.red, background},
+                            {background, Color.red, Color.red},
                     },
                     {//second rotation
-                            {null, Color.red, null},
-                            {Color.red, Color.red, null},
-                            {Color.red, null, null}
+                            {background, Color.red, background},
+                            {Color.red, Color.red, background},
+                            {Color.red, background, background}
                     }
             };
         }
+    }
+    public int getWidth(){
+        return pieceArray[0][0].length;
+    }
+    public int getHeight(){
+        return pieceArray[0].length;
+    }
+    public void rotateRight(){
+        rotation = (rotation+1)%(pieceArray.length);
+    }
+    public void rotateLeft(){
+        int x = rotation-1;
+        if(x<0){
+            rotation = pieceArray.length + 1 + x;
+        }else rotation = x%pieceArray.length;
+    }
+    public int getRotation(){
+        return rotation;
     }
 }
