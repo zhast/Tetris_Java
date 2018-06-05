@@ -75,7 +75,7 @@ public class GamePiece {
                     {//first rotation
                             {background, background, background},
                             {background, new Color(153, 0, 255), background},
-                            {new Color(153, 0, 255), new Color(153, 0, 255), background},
+                            {new Color(153, 0, 255), new Color(153, 0, 255), new Color(153, 0, 255)},
                     },
                     {//second rotation
                             {background, background, new Color(153, 0, 255)},
