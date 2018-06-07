@@ -9,7 +9,7 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
     Dimension dim = null;
     int boardHeight = 20;
     int boardWidth = 10;
-    Color[][] board = new Color[boardHeight][boardWidth];
+    Color[][] board = new Color[boardHeight][boardWidth]; //[height][width]
     GamePiece currentPiece;
     int pieceX, pieceY;
     private long delay = 500;
@@ -119,10 +119,10 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
         }
         for(int i=0; i<currentPiece.pieceArray[currentPiece.getRotation()].length; i++){
             for(int j=0; j<currentPiece.pieceArray[currentPiece.getRotation()][i].length; j++){
-                if(board[pieceY+i+1][pieceX+j] != backgroundColor){
-                    System.out.println("py: " + pieceY + "i: " + i + "tot: " + (pieceY+i));
-                    System.out.println("px: " + pieceX + "j: " + j + "tot: " + (pieceX+j));
-                    return false;
+                if(currentPiece.pieceArray[currentPiece.getRotation()][i][j] != backgroundColor) {
+                    if (board[pieceY + i + 1][pieceX + j] != backgroundColor) {
+                        return false;
+                    }
                 }
             }
         }

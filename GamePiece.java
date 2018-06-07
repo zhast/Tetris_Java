@@ -135,12 +135,4 @@ public class GamePiece {
     public int getRotation(){
         return rotation;
     }
-    public boolean canMoveRight(){
-        for(int i=0; i<pieceArray[rotation].length; i++){
-            if(pieceArray[rotation][i][pieceArray[rotation][i].length-1]!=background){
-                return false;
-            }
-        }
-        return true;
-    }
 }
