@@ -1,6 +1,7 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -14,6 +15,9 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
     private long delay = 500;
     private long period = 1000;
     private Color backgroundColor = Color.black;
+    BufferedImage osi;
+    Graphics osg;
+
     public ProgramPanel(){
         newBoard(board);
         setBackground(Color.lightGray);
@@ -164,9 +168,17 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
     }
 
     public void paint(Graphics g){
-        System.out.println("painting");
-        int x = 100;
-        int y = 100;
+        dim = getSize();
+        osi = new BufferedImage(dim.width, dim.height, BufferedImage.TYPE_INT_RGB);
+        osg = osi.getGraphics();
+        update(g);
+
+    }
+
+    public void update(Graphics g){
+        System.out.println("updating");
+        int x = 0;
+        int y = 0;
         int width = 40;
         int height = 40;
         int pieceI = 0;
@@ -174,24 +186,25 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
         for(int i=0; i<board.length; i++){ //i=updown
             for(int j=0; j<board[0].length; j++){ //j=leftright
                 if(j>=pieceX && j<pieceX+currentPiece.getWidth() && i>=pieceY && i<pieceY+currentPiece.getHeight()){
-                    g.setColor(currentPiece.pieceArray[currentPiece.getRotation()][pieceI][pieceJ]);
+                    osg.setColor(currentPiece.pieceArray[currentPiece.getRotation()][pieceI][pieceJ]);
                     pieceJ++;
                     if(pieceJ>=currentPiece.getWidth()){
                         pieceJ = 0;
                         pieceI++;
                     }
                 }else{
-                    g.setColor(board[i][j]);
+                    osg.setColor(board[i][j]);
                 }
-                if(board[i][j]!=Color.black) g.setColor(board[i][j]);
-                g.fillRect(x, y, width, height);
-                g.setColor(Color.lightGray);
-                g.drawRect(x, y, width, height);
+                if(board[i][j]!=Color.black) osg.setColor(board[i][j]);
+                osg.fillRect(x, y, width, height);
+                osg.setColor(Color.lightGray);
+                osg.drawRect(x, y, width, height);
                 x += width;
             }
             y += height;
-            x = 100;
+            x = 0;
         }
+        g.drawImage(osi, 0,0,this);
 
     }
 

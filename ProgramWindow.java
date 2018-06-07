@@ -6,8 +6,8 @@ public class ProgramWindow extends Frame {
     public ProgramWindow(){
         add(panel);
         setTitle("Tetris - Will Lu & Steven Zhang");
-        setSize(800, 1000);
-        setLocation(100, 100);
+        setSize(405, 830);
+        setLocation(200, 100);
         setResizable(false);
         setVisible(true);
     }
