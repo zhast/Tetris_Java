@@ -25,23 +25,51 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
             @Override
             public void run() {
                 movePieceDown();
+                boardUpdate();
             }
         };
         tm.scheduleAtFixedRate(task, delay, period);
     }
 
+    public void boardUpdate(){
+        for(int i=0; i<boardHeight; i++){
+            if(isFull(board[i])){
+                clearRow(i);
+            }
+        }
+        repaint();
+    }
+
+    //clear's selected row and increments everything above on the board down by one row
+    public void clearRow(int x){
+        for(int i=x; i>0; i--){
+            for(int j=0; j<boardWidth; j++){
+                board[i][j] = board[i-1][j];
+            }
+        }
+        for(int j=0; j<boardWidth; j++){
+            board[0][j] = Color.black;
+        }
+    }
+
+    //checks if board row is filled with pieces
+    public boolean isFull(Color[] row){
+        for(Color c:row){
+            if(c==backgroundColor) return false;
+        }
+        return true;
+    }
+
     public void movePieceDown(){
-        if(pieceY+currentPiece.getHeight()<boardHeight && board[pieceY+currentPiece.getHeight()][pieceX]==backgroundColor){
+        if(checkBelow()){
             pieceY++;
         }else{
             int pi=0;
             System.out.println(pieceY + " " + currentPiece.getHeight());
             for(int i=pieceY; i<pieceY+currentPiece.getHeight(); i++){
-                System.out.println("here");
                 int pj=0;
                 for(int j=pieceX; j<pieceX+currentPiece.getWidth(); j++){
-                    System.out.println("changing");
-                    board[i][j] = currentPiece.pieceArray[currentPiece.getRotation()][pi][pj];
+                    if(board[i][j] == Color.black)board[i][j] = currentPiece.pieceArray[currentPiece.getRotation()][pi][pj];
                     pj++;
                 }
                 pi++;
@@ -50,9 +78,39 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
         }
         repaint();
     }
+    //checks if currentpiece can move right
+    public boolean checkRight(){
+        if(pieceX+currentPiece.getWidth()>=boardWidth){
+            return false;
+        }
+        for(int i=0; i<currentPiece.pieceArray[currentPiece.getRotation()].length; i++){
+            for(int j=0; j<currentPiece.pieceArray[currentPiece.getRotation()][i].length; j++){
+                if(board[pieceY+i][pieceX+j+1] != backgroundColor){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+    //checks if currentpiece can move down
+    public boolean checkBelow(){
+        if(pieceY+currentPiece.getHeight()>=boardHeight){
+            return false;
+        }
+        for(int i=0; i<currentPiece.pieceArray[currentPiece.getRotation()].length; i++){
+            for(int j=0; j<currentPiece.pieceArray[currentPiece.getRotation()][i].length; j++){
+                if(board[pieceY+i+1][pieceX+j] != backgroundColor){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     public void movePieceRight(){
-        if(pieceX+currentPiece.getWidth()<=boardWidth && board[pieceY][pieceX+currentPiece.getWidth()]==backgroundColor){
+        if(checkRight()){
             pieceX++;
             repaint();
         }
@@ -101,6 +159,7 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
                 }else{
                     g.setColor(board[i][j]);
                 }
+                if(board[i][j]!=Color.black) g.setColor(board[i][j]);
                 g.fillRect(x, y, width, height);
                 g.setColor(Color.lightGray);
                 g.drawRect(x, y, width, height);
@@ -130,11 +189,14 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
             case KeyEvent.VK_DOWN:
                 movePieceDown();
                 break;
-            /*case KeyEvent.VK_UP:
+            case KeyEvent.VK_UP:
                 currentPiece.rotateRight();
                 repaint();
                 break;
-*/
+            case KeyEvent.VK_C:
+                currentPiece.rotateLeft();
+                repaint();
+                break;
         }
     }
 

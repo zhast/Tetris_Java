@@ -140,7 +140,7 @@ public class GamePiece {
     public void rotateLeft(){
         int x = rotation-1;
         if(x<0){
-            rotation = pieceArray.length + 1 + x;
+            rotation = pieceArray.length + x;
         }else rotation = x%pieceArray.length;
     }
     public int getRotation(){
