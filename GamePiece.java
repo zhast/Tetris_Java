@@ -59,8 +59,8 @@ public class GamePiece {
                             {Color.blue, background}
                     },
                     {//fourth rotation
-                            {Color.blue, Color.blue, Color.blue},
-                            {Color.blue, background, background}
+                            {Color.blue, background, background},
+                            {Color.blue, Color.blue, Color.blue}
                     }
             };
         }else if(n==3){//T piece

@@ -12,7 +12,7 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
     GamePiece currentPiece;
     int pieceX, pieceY;
     private long delay = 500;
-    private long period = 500;
+    private long period = 1000;
     private Color backgroundColor = Color.black;
     public ProgramPanel(){
         newBoard(board);
@@ -65,7 +65,6 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
             pieceY++;
         }else{
             int pi=0;
-            System.out.println(pieceY + " " + currentPiece.getHeight());
             for(int i=pieceY; i<pieceY+currentPiece.getHeight(); i++){
                 int pj=0;
                 for(int j=pieceX; j<pieceX+currentPiece.getWidth(); j++){
@@ -117,6 +116,8 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
         for(int i=0; i<currentPiece.pieceArray[currentPiece.getRotation()].length; i++){
             for(int j=0; j<currentPiece.pieceArray[currentPiece.getRotation()][i].length; j++){
                 if(board[pieceY+i+1][pieceX+j] != backgroundColor){
+                    System.out.println("py: " + pieceY + "i: " + i + "tot: " + (pieceY+i));
+                    System.out.println("px: " + pieceX + "j: " + j + "tot: " + (pieceX+j));
                     return false;
                 }
             }
@@ -173,7 +174,6 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
         for(int i=0; i<board.length; i++){ //i=updown
             for(int j=0; j<board[0].length; j++){ //j=leftright
                 if(j>=pieceX && j<pieceX+currentPiece.getWidth() && i>=pieceY && i<pieceY+currentPiece.getHeight()){
-                    System.out.println(pieceI);
                     g.setColor(currentPiece.pieceArray[currentPiece.getRotation()][pieceI][pieceJ]);
                     pieceJ++;
                     if(pieceJ>=currentPiece.getWidth()){
