@@ -12,7 +12,7 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
     GamePiece currentPiece;
     int pieceX, pieceY;
     private long delay = 500;
-    private long period = 250;
+    private long period = 500;
     private Color backgroundColor = Color.black;
     public ProgramPanel(){
         newBoard(board);
@@ -74,6 +74,7 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
                 }
                 pi++;
             }
+            boardUpdate();
             loadPiece();
         }
         repaint();
@@ -93,6 +94,20 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
         return true;
     }
 
+    //checks if currentpiece can move left
+    public boolean checkLeft(){
+        if(pieceX<=0){
+            return false;
+        }
+        for(int i=0; i<currentPiece.pieceArray[currentPiece.getRotation()].length; i++){
+            for(int j=0; j<currentPiece.pieceArray[currentPiece.getRotation()][i].length; j++){
+                if(board[pieceY+i][pieceX+j-1] != backgroundColor){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     //checks if currentpiece can move down
     public boolean checkBelow(){
@@ -117,7 +132,7 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
     }
 
     public void movePieceLeft(){
-        if(pieceX-1>=0 && board[pieceY][pieceX-1]==backgroundColor){
+        if(checkLeft()){
             pieceX--;
             repaint();
         }
@@ -139,6 +154,14 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
         }
     }
 
+    //places piece at lowest possible position on board
+    public void dropPiece(){
+        while(checkBelow()){
+            pieceY++;
+        }
+        repaint();
+    }
+
     public void paint(Graphics g){
         System.out.println("painting");
         int x = 100;
@@ -150,6 +173,7 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
         for(int i=0; i<board.length; i++){ //i=updown
             for(int j=0; j<board[0].length; j++){ //j=leftright
                 if(j>=pieceX && j<pieceX+currentPiece.getWidth() && i>=pieceY && i<pieceY+currentPiece.getHeight()){
+                    System.out.println(pieceI);
                     g.setColor(currentPiece.pieceArray[currentPiece.getRotation()][pieceI][pieceJ]);
                     pieceJ++;
                     if(pieceJ>=currentPiece.getWidth()){
@@ -196,6 +220,9 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
             case KeyEvent.VK_C:
                 currentPiece.rotateLeft();
                 repaint();
+                break;
+            case KeyEvent.VK_SPACE:
+                dropPiece();
                 break;
         }
     }

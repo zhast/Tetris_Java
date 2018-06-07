@@ -11,15 +11,12 @@ public class GamePiece {
         if(n==0){ //line piece
             pieceArray = new Color[][][]{
                     {//first rotation
-                            {new Color(0, 255, 255), background, background, background },
-                            {new Color(0, 255, 255), background, background, background },
-                            {new Color(0, 255, 255), background, background, background },
-                            {new Color(0, 255, 255), background, background, background }
+                            {new Color(0, 255, 255)},
+                            {new Color(0, 255, 255)},
+                            {new Color(0, 255, 255)},
+                            {new Color(0, 255, 255)}
                     },
                     {//second rotation
-                            {background, background, background, background},
-                            {background, background, background, background},
-                            {background, background, background, background},
                             {new Color(0, 255, 255), new Color(0, 255, 255), new Color(0, 255, 255), new Color(0, 255, 255),}
                     }
 
@@ -27,22 +24,20 @@ public class GamePiece {
         }else if(n==1){//L piece
             pieceArray = new Color[][][]{
                     {//first rotation
-                            {Color.orange, background, background},
-                            {Color.orange, background, background},
-                            {Color.orange, Color.orange, background},
+                            {Color.orange, background},
+                            {Color.orange, background},
+                            {Color.orange, Color.orange},
                     },
                     {//second rotation
-                            {background, background, background},
                             {background, background, Color.orange},
                             {Color.orange, Color.orange, Color.orange}
                     },
                     {//third rotation
-                            {Color.orange, Color.orange, background},
-                            {background, Color.orange, background},
-                            {background, Color.orange, background}
+                            {Color.orange, Color.orange},
+                            {background, Color.orange},
+                            {background, Color.orange}
                     },
                     {//fourth rotation
-                            {background, background, background},
                             {Color.orange, Color.orange, Color.orange},
                             {Color.orange, background, background}
                     }
@@ -50,22 +45,20 @@ public class GamePiece {
         }else if(n==2){//J piece
             pieceArray = new Color[][][]{
                     {//first rotation
-                            {background, background, Color.blue},
-                            {background, background, Color.blue},
-                            {background, Color.blue, Color.blue},
+                            {background, Color.blue},
+                            {background, Color.blue},
+                            {Color.blue, Color.blue},
                     },
                     {//second rotation
-                            {background, background, background},
                             {Color.blue, Color.blue, Color.blue},
                             {background, background, Color.blue}
                     },
                     {//third rotation
-                            {background, Color.blue, Color.blue},
-                            {background, Color.blue, background},
-                            {background, Color.blue, background}
+                            {Color.blue, Color.blue},
+                            {Color.blue, background},
+                            {Color.blue, background}
                     },
                     {//fourth rotation
-                            {background, background, background},
                             {Color.blue, Color.blue, Color.blue},
                             {Color.blue, background, background}
                     }
@@ -73,24 +66,22 @@ public class GamePiece {
         }else if(n==3){//T piece
             pieceArray = new Color[][][]{
                     {//first rotation
-                            {background, background, background},
                             {background, new Color(153, 0, 255), background},
                             {new Color(153, 0, 255), new Color(153, 0, 255), new Color(153, 0, 255)},
                     },
                     {//second rotation
-                            {background, background, new Color(153, 0, 255)},
-                            {background, new Color(153, 0, 255), new Color(153, 0, 255)},
-                            {background, background, new Color(153, 0, 255)}
+                            {background, new Color(153, 0, 255)},
+                            {new Color(153, 0, 255), new Color(153, 0, 255)},
+                            {background, new Color(153, 0, 255)}
                     },
                     {//third rotation
                             {new Color(153, 0, 255), new Color(153, 0, 255), new Color(153, 0, 255)},
-                            {background, new Color(153, 0, 255), background},
-                            {background, background, background}
+                            {background, new Color(153, 0, 255), background}
                     },
                     {//fourth rotation
-                            {new Color(153, 0, 255), background, background},
-                            {new Color(153, 0, 255), new Color(153, 0, 255), background},
-                            {new Color(153, 0, 255), background, background}
+                            {new Color(153, 0, 255), background},
+                            {new Color(153, 0, 255), new Color(153, 0, 255)},
+                            {new Color(153, 0, 255), background}
                     }
             };
         }else if(n==4){//O piece
@@ -103,36 +94,34 @@ public class GamePiece {
         }else if(n==5){//S piece
             pieceArray = new Color[][][]{
                     {//first rotation
-                            {background, background, background},
                             {background, Color.green, Color.green},
                             {Color.green, Color.green, background},
                     },
                     {//second rotation
-                            {Color.green, background, background},
-                            {Color.green, Color.green, background},
-                            {background, Color.green, background}
+                            {Color.green, background},
+                            {Color.green, Color.green},
+                            {background, Color.green}
                     }
             };
         }else if(n==6){//Z piece
             pieceArray = new Color[][][]{
                     {//first rotation
-                            {background, background, background},
                             {Color.red, Color.red, background},
                             {background, Color.red, Color.red},
                     },
                     {//second rotation
-                            {background, Color.red, background},
-                            {Color.red, Color.red, background},
-                            {Color.red, background, background}
+                            {background, Color.red},
+                            {Color.red, Color.red},
+                            {Color.red, background}
                     }
             };
         }
     }
     public int getWidth(){
-        return pieceArray[0][0].length;
+        return pieceArray[rotation][0].length;
     }
     public int getHeight(){
-        return pieceArray[0].length;
+        return pieceArray[rotation].length;
     }
     public void rotateRight(){
         rotation = (rotation+1)%(pieceArray.length);
@@ -145,5 +134,13 @@ public class GamePiece {
     }
     public int getRotation(){
         return rotation;
+    }
+    public boolean canMoveRight(){
+        for(int i=0; i<pieceArray[rotation].length; i++){
+            if(pieceArray[rotation][i][pieceArray[rotation][i].length-1]!=background){
+                return false;
+            }
+        }
+        return true;
     }
 }
