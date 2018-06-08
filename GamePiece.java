@@ -2,13 +2,14 @@
 import java.awt.*;
 
 public class GamePiece {
-    public Color[][][] pieceArray; //[rotation][row][col]
-    private int rotation;
-    private Color background;
+    public Color[][][] pieceArray; //3d Color array holding the shape of each piece: [rotation][row][column]
+    private int rotation; //index of current piece's rotation
+    private Color background; //color of background
 
     /*
     Constructor
     Initializes a new GamePieces randomly to one of the 7 possible pieces
+    Parameters: random int between 0 and 7, background color
      */
     public GamePiece(int n, Color background){
         this.background = background;
@@ -34,8 +35,8 @@ public class GamePiece {
                             {Color.orange, Color.orange},
                     },
                     {//second rotation
-                            {background, background, Color.orange},
-                            {Color.orange, Color.orange, Color.orange}
+                            {Color.orange, Color.orange, Color.orange},
+                            {Color.orange, background, background}
                     },
                     {//third rotation
                             {Color.orange, Color.orange},
@@ -43,8 +44,8 @@ public class GamePiece {
                             {background, Color.orange}
                     },
                     {//fourth rotation
-                            {Color.orange, Color.orange, Color.orange},
-                            {Color.orange, background, background}
+                            {background, background, Color.orange},
+                            {Color.orange, Color.orange, Color.orange}
                     }
             };
         }else if(n==2){//J piece
@@ -55,8 +56,8 @@ public class GamePiece {
                             {Color.blue, Color.blue},
                     },
                     {//second rotation
-                            {Color.blue, Color.blue, Color.blue},
-                            {background, background, Color.blue}
+                            {Color.blue, background, background},
+                            {Color.blue, Color.blue, Color.blue}
                     },
                     {//third rotation
                             {Color.blue, Color.blue},
@@ -64,8 +65,8 @@ public class GamePiece {
                             {Color.blue, background}
                     },
                     {//fourth rotation
-                            {Color.blue, background, background},
-                            {Color.blue, Color.blue, Color.blue}
+                            {Color.blue, Color.blue, Color.blue},
+                            {background, background, Color.blue}
                     }
             };
         }else if(n==3){//T piece
@@ -75,18 +76,18 @@ public class GamePiece {
                             {new Color(153, 0, 255), new Color(153, 0, 255), new Color(153, 0, 255)},
                     },
                     {//second rotation
-                            {background, new Color(153, 0, 255)},
+                            {new Color(153, 0, 255), background},
                             {new Color(153, 0, 255), new Color(153, 0, 255)},
-                            {background, new Color(153, 0, 255)}
+                            {new Color(153, 0, 255), background}
                     },
                     {//third rotation
                             {new Color(153, 0, 255), new Color(153, 0, 255), new Color(153, 0, 255)},
                             {background, new Color(153, 0, 255), background}
                     },
                     {//fourth rotation
-                            {new Color(153, 0, 255), background},
+                            {background, new Color(153, 0, 255)},
                             {new Color(153, 0, 255), new Color(153, 0, 255)},
-                            {new Color(153, 0, 255), background}
+                            {background, new Color(153, 0, 255)}
                     }
             };
         }else if(n==4){//O piece

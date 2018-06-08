@@ -6,23 +6,36 @@ import java.util.TimerTask;
 
 public class ProgramPanel extends Panel implements KeyListener{
     Dimension dim = null;
+
+    //dimensions of the board (number of cells wide/high)
     int boardHeight = 20;
     int boardWidth = 10;
-    Color[][] board = new Color[boardHeight][boardWidth]; //[height][width]
-    GamePiece currentPiece;
-    int pieceX, pieceY;
+
+    Color[][] board = new Color[boardHeight][boardWidth]; //2d Color array that describes the board state
+
+    GamePiece currentPiece; //the current piece being controlled by the user
+    GamePiece nextPiece; //the next piece
+
+    int pieceX, pieceY; //location of the top left corner of the current piece on the board
+
+    //delay and period for the regularly scheduled tasks
     private long delay = 500;
     private long period = 1000;
-    private Color backgroundColor = Color.black;
+
+    private Color backgroundColor = Color.black; //background color of the board
+
+    //off screen graphics and image for double buffered painting
     BufferedImage osi;
     Graphics osg;
 
     //Constructor
     public ProgramPanel(){
-        newBoard(board);
+        newBoard(board); //initialize the board
         setBackground(Color.lightGray);
-        addKeyListener(this);
-        loadPiece();
+        addKeyListener(this); //add key listener to the panel
+        loadPiece(); //load new piece
+
+        //create timer to regularly drop piece
         Timer tm = new Timer();
         TimerTask task = new TimerTask(){
             @Override
@@ -32,6 +45,18 @@ public class ProgramPanel extends Panel implements KeyListener{
             }
         };
         tm.scheduleAtFixedRate(task, delay, period);
+    }
+
+    //exits the game if next piece cannot be placed (if game is over)
+    public void checkOver(){
+        System.out.println(nextPiece.getHeight());
+        for(int i=0; i<nextPiece.getHeight(); i++){
+            for(int j = 4; j<4+nextPiece.getWidth(); j++){
+                if(board[i][j] != backgroundColor){
+                    System.exit(0);
+                }
+            }
+        }
     }
 
 
@@ -84,8 +109,8 @@ public class ProgramPanel extends Panel implements KeyListener{
             pieceY++;
         }else{
             placePiece();
-            boardUpdate();
             loadPiece();
+            boardUpdate();
         }
         repaint();
     }
@@ -155,10 +180,18 @@ public class ProgramPanel extends Panel implements KeyListener{
 
     //resets current piece location and loads in a new GamePiece
     public void loadPiece(){
+        if(nextPiece==null) {
+            currentPiece = new GamePiece((int)(Math.random()*7), backgroundColor) ;
+            nextPiece = new GamePiece((int)(Math.random()*7), backgroundColor);
+        }
+        else {
+            checkOver();
+            currentPiece = nextPiece;
+            nextPiece = new GamePiece((int)(Math.random()*7), backgroundColor);
+        }
         pieceY = 0;
-        int x = (int)(Math.random()*7);
-        currentPiece = new GamePiece(x, backgroundColor);
         pieceX = 4;
+
     }
 
     //initializes game board to blank state
