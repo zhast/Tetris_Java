@@ -1,11 +1,10 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ProgramPanel extends Panel implements MouseListener, KeyListener{
+public class ProgramPanel extends Panel implements KeyListener{
     Dimension dim = null;
     int boardHeight = 20;
     int boardWidth = 10;
@@ -18,22 +17,23 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
     BufferedImage osi;
     Graphics osg;
 
+    //Constructor
     public ProgramPanel(){
         newBoard(board);
         setBackground(Color.lightGray);
-        addMouseListener(this);
         addKeyListener(this);
         loadPiece();
         Timer tm = new Timer();
         TimerTask task = new TimerTask(){
             @Override
             public void run() {
+                //moves piece down at a scheduled rate
                 movePieceDown();
-                boardUpdate();
             }
         };
         tm.scheduleAtFixedRate(task, delay, period);
     }
+
 
     public void boardUpdate(){
         for(int i=0; i<boardHeight; i++){
@@ -44,7 +44,21 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
         repaint();
     }
 
-    //clear's selected row and increments everything above on the board down by one row
+    //takes current piece and copies it into the board
+    public void placePiece(){
+        int pi=0;
+        for(int i=pieceY; i<pieceY+currentPiece.getHeight(); i++){
+            int pj=0;
+            for(int j=pieceX; j<pieceX+currentPiece.getWidth(); j++){
+                if(board[i][j] == Color.black)board[i][j] = currentPiece.pieceArray[currentPiece.getRotation()][pi][pj];
+                pj++;
+            }
+            pi++;
+        }
+        boardUpdate();
+    }
+
+    //clears selected row and increments everything above on the board down by one row
     public void clearRow(int x){
         for(int i=x; i>0; i--){
             for(int j=0; j<boardWidth; j++){
@@ -56,7 +70,7 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
         }
     }
 
-    //checks if board row is filled with pieces
+    //returns true if board row is filled with pieces
     public boolean isFull(Color[] row){
         for(Color c:row){
             if(c==backgroundColor) return false;
@@ -64,25 +78,19 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
         return true;
     }
 
+    //moves piece down if possible. otherwise calls placePiece(), boardUpdate(), and loadPiece()
     public void movePieceDown(){
         if(checkBelow()){
             pieceY++;
         }else{
-            int pi=0;
-            for(int i=pieceY; i<pieceY+currentPiece.getHeight(); i++){
-                int pj=0;
-                for(int j=pieceX; j<pieceX+currentPiece.getWidth(); j++){
-                    if(board[i][j] == Color.black)board[i][j] = currentPiece.pieceArray[currentPiece.getRotation()][pi][pj];
-                    pj++;
-                }
-                pi++;
-            }
+            placePiece();
             boardUpdate();
             loadPiece();
         }
         repaint();
     }
-    //checks if currentpiece can move right
+
+    //returns true if currentpiece can move right
     public boolean checkRight(){
         if(pieceX+currentPiece.getWidth()>=boardWidth){
             return false;
@@ -97,7 +105,7 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
         return true;
     }
 
-    //checks if currentpiece can move left
+    //returns true if currentpiece can move left
     public boolean checkLeft(){
         if(pieceX<=0){
             return false;
@@ -112,7 +120,7 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
         return true;
     }
 
-    //checks if currentpiece can move down
+    //returns true if currentpiece can move down
     public boolean checkBelow(){
         if(pieceY+currentPiece.getHeight()>=boardHeight){
             return false;
@@ -129,6 +137,7 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
         return true;
     }
 
+    //moves piece to the right
     public void movePieceRight(){
         if(checkRight()){
             pieceX++;
@@ -136,6 +145,7 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
         }
     }
 
+    //moves piece to the left
     public void movePieceLeft(){
         if(checkLeft()){
             pieceX--;
@@ -143,14 +153,15 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
         }
     }
 
+    //resets current piece location and loads in a new GamePiece
     public void loadPiece(){
-        pieceY = 0; //updown
-        int x = (int)(Math.random()*6);
-        System.out.println(x);
+        pieceY = 0;
+        int x = (int)(Math.random()*7);
         currentPiece = new GamePiece(x, backgroundColor);
-        pieceX = 4; //leftright
+        pieceX = 4;
     }
 
+    //initializes game board to blank state
     public void newBoard(Color[][] board){
         for(int i=0; i<board.length; i++){
             for(int j=0; j<board[0].length; j++){
@@ -159,11 +170,17 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
         }
     }
 
-    //places piece at lowest possible position on board
+    /*
+    places piece at lowest possible position on board
+    Calls boardUpdate(), loadPiece()
+     */
     public void dropPiece(){
         while(checkBelow()){
             pieceY++;
         }
+        placePiece();
+        boardUpdate();
+        loadPiece();
         repaint();
     }
 
@@ -175,8 +192,8 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
 
     }
 
+    //implements double buffering by using off screen graphics
     public void update(Graphics g){
-        System.out.println("updating");
         int x = 0;
         int y = 0;
         int width = 40;
@@ -208,11 +225,7 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
 
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
+    //handles key inputs
     @Override
     public void keyPressed(KeyEvent e) {
         int keyCode = e.getKeyCode();
@@ -228,10 +241,16 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
                 break;
             case KeyEvent.VK_UP:
                 currentPiece.rotateRight();
+                while(pieceX + currentPiece.getWidth()>boardWidth){
+                    pieceX--;
+                }
                 repaint();
                 break;
             case KeyEvent.VK_C:
                 currentPiece.rotateLeft();
+                while(pieceX + currentPiece.getWidth()>=boardWidth){
+                    pieceX--;
+                }
                 repaint();
                 break;
             case KeyEvent.VK_SPACE:
@@ -240,34 +259,16 @@ public class ProgramPanel extends Panel implements MouseListener, KeyListener{
         }
     }
 
+
+
+    //methods below are not used
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
     @Override
     public void keyReleased(KeyEvent e) {
 
     }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
 }

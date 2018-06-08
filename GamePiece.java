@@ -5,6 +5,11 @@ public class GamePiece {
     public Color[][][] pieceArray; //[rotation][row][col]
     private int rotation;
     private Color background;
+
+    /*
+    Constructor
+    Initializes a new GamePieces randomly to one of the 7 possible pieces
+     */
     public GamePiece(int n, Color background){
         this.background = background;
         rotation = 0;
@@ -117,21 +122,31 @@ public class GamePiece {
             };
         }
     }
+
+    //returns the width of the current rotation of the piece
     public int getWidth(){
         return pieceArray[rotation][0].length;
     }
+
+    //returns the height of the current rotation of the piece
     public int getHeight(){
         return pieceArray[rotation].length;
     }
+
+    //rotates the piece to the right
     public void rotateRight(){
         rotation = (rotation+1)%(pieceArray.length);
     }
+
+    //rotates the piece to the left
     public void rotateLeft(){
         int x = rotation-1;
         if(x<0){
             rotation = pieceArray.length + x;
         }else rotation = x%pieceArray.length;
     }
+
+    //returns the current rotation of the piece
     public int getRotation(){
         return rotation;
     }
