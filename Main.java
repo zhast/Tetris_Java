@@ -1,4 +1,7 @@
-
+/*
+Main Class, contains the main method that is called by java first.
+Creates a new frame using programWindow()
+ */
 import java.awt.event.*;
 
 public class Main {

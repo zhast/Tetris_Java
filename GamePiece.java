@@ -1,4 +1,8 @@
-
+/*
+Describes each tetromino piece
+Contains methods to manipulate shape and rotation of the tetromino
+Created by ProgramPanel
+ */
 import java.awt.*;
 
 public class GamePiece {
@@ -9,7 +13,8 @@ public class GamePiece {
     /*
     Constructor
     Initializes a new GamePieces randomly to one of the 7 possible pieces
-    Parameters: random int between 0 and 7, background color
+    Parameters: id of shape - random int between 0 and 7
+                background color
      */
     public GamePiece(int n, Color background){
         this.background = background;
@@ -141,7 +146,7 @@ public class GamePiece {
 
     //rotates the piece to the left
     public void rotateLeft(){
-        int x = rotation-1;
+        int x = rotation-1; //temporary variable
         if(x<0){
             rotation = pieceArray.length + x;
         }else rotation = x%pieceArray.length;
