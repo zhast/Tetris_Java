@@ -1,10 +1,8 @@
-# Tetris_Java
-ICS4U SUMMATIVE PROJECT
-Programming TETRIS in Java
-by Will and Steven 
+# Tetris_Java : ICS4U Summative Project 
+Programming TETRIS in Java by Will and Steven 
 
 
-1. Description of Program
+## 1. Description of Program
 
 
 TETRIS is a tile-matching puzzle game released in 1984. It gets its name from the greek prefix “tetra” because TETRIS is composed of 4-block shapes fall and stack onto each other on a 10 x 20 block rectangular grid. The goal of the game is to drop these 4-block shapes to complete a row, which gains the player points. The game ends when the next tetromino exceeds the top layer of the grid. 
@@ -13,12 +11,7 @@ After the user compiles and runs the code, a ProgramWindow object is created so 
 
 The tetrominoes come in shapes known as I, T, O, L, J, S, and Z. These tetrominoes fall from the top of the grid to the bottom of the grid. When a full row is filled by blocks, the clearRow function is called and the row disappears gains points. Tetrominoes can be manipulated by rotation 90 degrees by pressing the “up-arrow” key to rotates the tetromino right and the “C” key to rotate the tetromino left. The checkRight and checkLeft functions are called to ensure that tetrominoes stay within the grid and a rotation is possible. Tetrominoes can be dropped to the bottom of the grid when the “spacebar” key is pressed, which calls the dropPiece function. TETRIS pieces drop down at a constant speed unless the user commands the tetrominoes to drop faster by pressing the “down-arrow” key, which calls the movePieceDown function. Together, these functions in the class ProgramPanel translate the user’s inputs into the game to manipulate the blocks. 
 
-
-
-
-2. Analysis of the Programs
-
-
+## 2. Analysis of the Programs
 
 There are 4 classes required to make TETRIS run properly in Java. 
 
